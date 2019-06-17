@@ -1,0 +1,76 @@
+{
+	"plugin_id": "prix_hphc",
+  "name_fr": "Conversion en EUR des index HP et HC",
+	"icon": "teleinfo_money.png",
+	"version": "1.0.0",
+	"creation_date": "2019-06-13",
+	"modification_date": "2019-06-13",
+	"author": "<a href='http://www.aussitot.net/' target='_blank'>@havok</a>",
+	"description_fr": "Converti en euros deux index de consommation (HP et HC)</a>",
+	"description_en": "",
+	"description_es": "",
+	"description_it": "",
+	"description_de": "",
+  "forum_link": "http://forum.eedomus.com/viewtopic.php?f=50&t=8590",
+  "parameters":
+  [
+		{
+			"parameter": "periphhp",
+			"description": "Périphérique Index HP",
+			"xtype": "combo",
+ 			"field": "store : getCombo('/json/list_all.php?value_type=float&filter_unit=kWh'), displayField: 'label', valueField: 'id', triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: false",
+			"default_value": ""
+    },
+    {
+      "parameter": "periphhc",
+      "description": "Périphérique Index HC",
+			"xtype": "combo",
+ 			"field": "store : getCombo('/json/list_all.php?value_type=float&filter_unit=kWh'), displayField: 'label', valueField: 'id', triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: false",
+			"default_value": ""
+    },
+		{
+      "parameter": "prixhp",
+      "description": "Prix TTC en EUR du kWh Heures Pleines (optionnel)",
+      "xtype": "textfield",
+			"default_value": "0.1703",
+			"field": "width:130, allowBlank:false"
+    },
+		{
+			"parameter": "prixhc",
+			"description": "Prix TTC en EUR du kWh Heures Creuses (optionnel)",
+			"xtype": "textfield",
+			"default_value": "0.1319",
+			"field": "width:130, allowBlank:true"
+		}
+  ],
+	"scripts":
+	[
+		{
+			"name": "prixhphc.php"
+		}
+	],
+  "devices":
+  [
+		{
+			"device_id": "consommation_hphc",
+			"module_id": "51",
+			"type": "http",
+			"name_fr": "consommation_hphc",
+			"icon": "teleinfo_money.png",
+			"utilisation_id": "26",
+			"value_unit": "eur",
+			"parameters":
+			{
+				"VAR1": "plugin.parameters.periphhp",
+				"VAR2": "plugin.parameters.periphhc",
+				"VAR3": "plugin.parameters.prixhp",
+				"VAR4": "plugin.parameters.prixhc",
+				"value_type": "float",
+				"ignore_errors": 1,
+				"RAW_URL": "http://localhost/script/?exec=prixhphc.php&periphhp=[VAR1]&periphhc=[VAR2]&prixhp=[VAR3]&prixhc=[VAR4]",
+				"RAW_XPATH": "/root/prix/total",
+				"POLLING": "15"
+			}
+		}
+  ]
+}
